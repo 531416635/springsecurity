@@ -1,43 +1,65 @@
-<beans xmlns="http://www.springframework.org/schema/beans" 
-xmlns:security="http://www.springframework.org/schema/security" 
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-xmlns:aop="http://www.springframework.org/schema/aop" 
-xmlns:tx="http://www.springframework.org/schema/tx" 
-xmlns:context="http://www.springframework.org/schema/context" 
-xmlns:util="http://www.springframework.org/schema/util" 
-xsi:schemaLocation=" 
-       http://www.springframework.org/schema/beans 
-       http://www.springframework.org/schema/beans/spring-beans.xsd 
-       http://www.springframework.org/schema/security 
-       http://www.springframework.org/schema/security/spring-security-3.1.xsd 
-       http://www.springframework.org/schema/aop 
-       http://www.springframework.org/schema/aop/spring-aop-3.1.xsd	       
-       http://www.springframework.org/schema/tx 
-       http://www.springframework.org/schema/tx/spring-tx-3.1.xsd 
-       http://www.springframework.org/schema/context 
-       http://www.springframework.org/schema/context/spring-context-3.1.xsd 
-       http://www.springframework.org/schema/security 
-       http://www.springframework.org/schema/security/spring-security-4.0.xsd" >
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security.xsd">
 	<!-- 权限控制的规则 -->
-	<security:http auto-config="true">
-		<security:intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
-	</security:http>
+	<http pattern="/css/**" security="none" />
+	<http pattern="/login.jsp*" security="none" />
+	<http pattern="/index.jsp*" security="none" />
 
+	<http use-expressions="false"  entry-point-ref="authenticationProcessingFilterEntryPoint">
+		<intercept-url pattern="/**" access="ROLE_USER" />
+		<form-login login-page='/login.jsp' default-target-url='/index.jsp' 
+			always-use-default-target='true' />
+		<csrf disabled="true" />
+	</http>
+	
+	<!-- 配置登录入口点 -->
+    <beans:bean id="authenticationProcessingFilterEntryPoint"
+        class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+        <beans:property name="loginFormUrl" value="/mylogin" />
+        <!-- 是否强制HTTPS -->
+        <beans:property name="forceHttps" value="false" />
+    </beans:bean>
 	<!-- 校验账号密码 ，定义一个AuthenticationManager ，用于认证 -->
-	<security:authentication-manager>
-		<security:authentication-provider>
-			<security:user-service>
-				<security:user name="user" password="user"
-					authorities="ROLE_USER" />
-				<security:user name="admin" password="admin"
+	<!-- <authentication-manager> -->
+	<!-- <authentication-provider> -->
+	<!-- <user-service> -->
+	<!-- <user name="jimi" password="jimi" authorities="ROLE_USER, ROLE_ADMIN" 
+		/> -->
+	<!-- <user name="bob" password="bob" authorities="ROLE_USER" /> -->
+	<!-- </user-service> -->
+	<!-- </authentication-provider> -->
+	<!-- </authentication-manager> -->
+	<!-- BCrypt-spring security的加密算法，也是一种Hash哈希算法，比SHA or MD5高级 -->
+	<!-- <beans:bean name="bcryptEncoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" /> -->
+	<!-- 认证 -->
+	<beans:bean name="myAuthenticationProvider" class="com.yao.security.myAuthenticationProvider" />
+	<!-- -->
+	<beans:bean name="myUserDetailsService" class="com.yao.security.myUserDetailsService" />
+
+	<authentication-manager>
+		 <authentication-provider>
+			<password-encoder ref="bcryptEncoder" />
+			<user-service>
+				<user name="jimi" password="d7e6351eaa13189a5a3641bab846c8e8c69ba39f"
 					authorities="ROLE_USER, ROLE_ADMIN" />
-			</security:user-service>
-		</security:authentication-provider>
-	</security:authentication-manager>
+				<user name="bob" password="4e7421b1b8765d8f9406d87e7cc6aa784c4ab97f"
+					authorities="ROLE_USER" />
+			</user-service>
+		</authentication-provider>
+		<authentication-provider  user-service-ref="myUserDetailsService"  >
+			<password-encoder hash="md5"/>
+		</authentication-provider>
+	</authentication-manager>
 
 	<!-- user-service 还支持通过 properties 文件来指定用户信息，如： -->
 
-	<!-- <security:user-service properties="/WEB-INF/config/users.properties" /> -->
+	<!-- <security:user-service properties="/WEB-INF/config/users.properties" 
+		/> -->
 	<!-- 其中属性文件应遵循如下格式： -->
 
 	<!-- username=password,grantedAuthority[,grantedAuthority][,enabled|disabled] -->
@@ -48,4 +70,4 @@ xsi:schemaLocation="
 	<!-- admin=admin,ROLE_USER,ROLE_ADMIN -->
 
 
-</beans>
+</beans:beans>
