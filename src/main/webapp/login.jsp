@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page isELIgnored="false"%>  
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>  
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -12,6 +15,8 @@
 <form action="${pageContext.request.contextPath}/mylogin.html" method="post">
   <fieldset>
     <legend>登陆</legend>
+    <security:csrfInput/>
+    <input type="hidden"name="${_csrf.parameterName}"value="${_csrf.token}"/></strong>
     用户： <input type="text" name="username" style="width:150px;" value="${sessionScope['SPRING_SECURITY_LAST_USERNAME']}"/><br />
     密码： <input type="password" name="password" style="width:150px;" /><br />
     <input type="submit" value="登陆"/>

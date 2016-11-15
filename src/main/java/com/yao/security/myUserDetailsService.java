@@ -25,11 +25,11 @@ public class myUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
-		System.out.println(username+"============UserDetailsService");
-		UserExample example =new UserExample();
-		Criteria criteria =example.createCriteria();
+		System.out.println(username + "============UserDetailsService");
+		UserExample example = new UserExample();
+		Criteria criteria = example.createCriteria();
 		criteria.andUsernameEqualTo(username);
-		//example.or(criteria);
+		// example.or(criteria);
 		User domainUser = userService.selectByExample(example).get(0);
 
 		boolean enabled = true;
