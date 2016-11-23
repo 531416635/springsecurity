@@ -49,7 +49,8 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public List<User> selectByExample(UserExample example) {
 		// TODO Auto-generated method stub
-		return dao.selectByExample(example);
+		List<User> rty =dao.selectByExample(example);
+		return rty;
 	}
 
 	@Override

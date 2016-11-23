@@ -4,67 +4,28 @@
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/security
 		http://www.springframework.org/schema/security/spring-security.xsd">
-
-	<debug />
+	
 	<!-- 权限控制的规则 -->
 	<http pattern="/css/**" security="none" />
-	<http pattern="/login.jsp*" security="none" />
-	<http pattern="/index.jsp*" security="none" />
-	<http pattern="/mylogin*" security="none" />
+	<http pattern="/login.jsp" security="none" />
+	<http pattern="/login_failure.jsp" security="none" />
+	<http pattern="/index.jsp" security="none" />
 
-	<http use-expressions="false">
-		<!-- 同一时间内允许同一账号保持4个在线,error-if-maximum-exceeded="true"表示第第四个以后的登不进去 -->
-		<session-management>
-			<concurrency-control max-sessions="4"
-				error-if-maximum-exceeded="true" />
-		</session-management>
-
-		<intercept-url pattern="/**" access="ROLE_USER" />
-		<form-login login-page='/mylogin' default-target-url='/index.jsp'
+	<http auto-config="true">
+		<intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
+		<form-login login-page='/login.jsp' login-processing-url="/mylogin.html"
 			password-parameter="password" username-parameter="username"
-			always-use-default-target='true' />
-		<!-- <csrf disabled="true" /> -->
-		<session-management invalid-session-url="/invalidSession.jsp"></session-management>
-		<!-- <custom-filter ref="myUserDetailsService" before="FILTER_SECURITY_INTERCEPTOR" /> -->
+			default-target-url="/index.jsp" authentication-failure-url="/login_failure.jsp" />
+		<csrf disabled="true" />
 	</http>
-
-	<!-- 配置登录入口点 -->
-	<!-- <beans:bean id="authenticationProcessingFilterEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint"> 
-		<beans:property name="loginFormUrl" value="/mylogin" /> 是否强制HTTPS <beans:property 
-		name="forceHttps" value="false" /> </beans:bean> -->
-	<!-- 校验账号密码 ，定义一个AuthenticationManager ，用于认证 -->
-	<!-- <authentication-manager> <authentication-provider> <user-service> <user 
-		name="jimi" password="jimi" authorities="ROLE_USER, ROLE_ADMIN" /> <user 
-		name="bob" password="bob" authorities="ROLE_USER" /> </user-service> </authentication-provider> 
-		</authentication-manager> -->
-	<!-- BCrypt-spring security的加密算法，也是一种Hash哈希算法，比SHA or MD5高级 -->
-	<!-- <beans:bean name="bcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" 
-		/> -->
-	<!-- 认证 -->
-	<!-- <beans:bean name="myAuthenticationProvider" class="com.yao.security.myAuthenticationProvider" 
-		/> -->
-	<!-- -->
-	<beans:bean name="myUserDetailsService" class="com.yao.security.myUserDetailsService" />
-
+	
 	<authentication-manager>
-		<authentication-provider user-service-ref="myUserDetailsService">
-			<password-encoder hash="bcrypt" />
-		</authentication-provider>
-
+		<authentication-provider ref="myAuthenticationProvider"></authentication-provider>
 	</authentication-manager>
-
-	<!-- user-service 还支持通过 properties 文件来指定用户信息，如： -->
-
-	<!-- <security:user-service properties="/WEB-INF/config/users.properties" 
-		/> -->
-	<!-- 其中属性文件应遵循如下格式： -->
-
-	<!-- username=password,grantedAuthority[,grantedAuthority][,enabled|disabled] -->
-	<!-- 所以，对应上面的配置文件，我们的 users.properties 文件的内容应该如下所示： -->
-
-	<!-- #username=password,grantedAuthority[,grantedAuthority][,enabled|disabled] -->
-	<!-- user=user,ROLE_USER -->
-	<!-- admin=admin,ROLE_USER,ROLE_ADMIN -->
-
-
+	
+	<beans:bean name="userDetailsService" class="com.yao.security.MyUserDetailsService" />
+	<beans:bean name="myAuthenticationProvider" class="com.yao.security.MyAuthenticationProvider" >
+		<beans:property name="myUserDetailsService" ref="userDetailsService"/>
+	</beans:bean>
+	
 </beans:beans>
