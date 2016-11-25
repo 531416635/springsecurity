@@ -15,14 +15,9 @@
 <form action="${pageContext.request.contextPath}/mylogin.html" method="post">
   <fieldset>
     <legend>登陆</legend>
-    <security:csrfInput/>
-    
     用户： <input type="text" name="username" style="width:150px;" value="${sessionScope['SPRING_SECURITY_LAST_USERNAME']}"/><br />
     密码： <input type="password" name="password" style="width:150px;" /><br />
-    
-    <input type="hidden"  name="${_csrf.parameterName}" value="${_csrf.token}" />
     <input type="submit" value="登陆"/>
-    <input type="reset" value="重置"/>
   </fieldset>
 </form>
 </body>

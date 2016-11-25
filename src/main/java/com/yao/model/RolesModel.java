@@ -2,7 +2,7 @@ package com.yao.model;
 
 import java.util.Date;
 
-public class Roles {
+public class RolesModel {
     private Integer id;
 
     private String rolename;

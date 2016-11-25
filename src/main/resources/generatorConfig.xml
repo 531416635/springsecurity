@@ -41,22 +41,22 @@
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 		<!-- 要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名 -->
-		<table tableName="userinfo" domainObjectName="User"
+		<table tableName="userinfo" domainObjectName="UserModel"
 			enableCountByExample="true" enableUpdateByExample="true"
 			enableDeleteByExample="true" enableSelectByExample="true"
 			selectByExampleQueryId="true"></table>
 			
-		<table tableName="menu" domainObjectName="Menu"
+		<table tableName="menu" domainObjectName="MenuModel"
 			enableCountByExample="true" enableUpdateByExample="true"
 			enableDeleteByExample="true" enableSelectByExample="true"
 			selectByExampleQueryId="true"></table>
 			
-		<table tableName="rolemenu" domainObjectName="RoleMenu"
+		<table tableName="rolemenu" domainObjectName="RoleMenuModel"
 			enableCountByExample="true" enableUpdateByExample="true"
 			enableDeleteByExample="true" enableSelectByExample="true"
 			selectByExampleQueryId="true"></table>
 			
-		<table tableName="roles" domainObjectName="Roles"
+		<table tableName="roles" domainObjectName="RolesModel"
 			enableCountByExample="true" enableUpdateByExample="true"
 			enableDeleteByExample="true" enableSelectByExample="true"
 			selectByExampleQueryId="true"></table>

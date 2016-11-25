@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class RolesExample {
+public class RolesModelExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public RolesExample() {
+    public RolesModelExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

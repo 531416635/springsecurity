@@ -2,7 +2,7 @@ package com.yao.model;
 
 import java.util.Date;
 
-public class Menu {
+public class MenuModel {
     private Integer id;
 
     private String menuname;

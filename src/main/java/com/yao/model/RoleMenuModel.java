@@ -1,6 +1,6 @@
 package com.yao.model;
 
-public class RoleMenu {
+public class RoleMenuModel {
     private Integer id;
 
     private Integer menuid;

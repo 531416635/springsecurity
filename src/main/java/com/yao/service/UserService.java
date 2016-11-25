@@ -4,32 +4,29 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.yao.model.User;
-import com.yao.model.UserExample;
+import com.yao.model.UserModel;
+import com.yao.model.UserModelExample;
 
 public interface UserService {
+	 long countByExample(UserModelExample example);
 
-	long countByExample(UserExample example);
+	    int deleteByExample(UserModelExample example);
 
-	int deleteByExample(UserExample example);
+	    int deleteByPrimaryKey(Integer id);
 
-	int deleteByPrimaryKey(Integer id);
+	    int insert(UserModel record);
 
-	int insert(User record);
+	    int insertSelective(UserModel record);
 
-	int insertSelective(User record);
+	    List<UserModel> selectByExample(UserModelExample example);
 
-	List<User> selectByExample(UserExample example);
+	    UserModel selectByPrimaryKey(Integer id);
 
-	User selectByPrimaryKey(Integer id);
+	    int updateByExampleSelective(@Param("record") UserModel record, @Param("example") UserModelExample example);
 
-	int updateByExampleSelective(@Param("record") User record,
-			@Param("example") UserExample example);
+	    int updateByExample(@Param("record") UserModel record, @Param("example") UserModelExample example);
 
-	int updateByExample(@Param("record") User record,
-			@Param("example") UserExample example);
+	    int updateByPrimaryKeySelective(UserModel record);
 
-	int updateByPrimaryKeySelective(User record);
-
-	int updateByPrimaryKey(User record);
+	    int updateByPrimaryKey(UserModel record);
 }

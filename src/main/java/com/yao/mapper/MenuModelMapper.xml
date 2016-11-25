@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yao.dao.MenuMapper">
-  <resultMap id="BaseResultMap" type="com.yao.model.Menu">
+<mapper namespace="com.yao.dao.MenuModelMapper">
+  <resultMap id="BaseResultMap" type="com.yao.model.MenuModel">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="menuname" jdbcType="VARCHAR" property="menuname" />
     <result column="menupath" jdbcType="VARCHAR" property="menupath" />
@@ -68,7 +68,7 @@
   <sql id="Base_Column_List">
     id, menuname, menupath, createtime
   </sql>
-  <select id="selectByExample" parameterType="com.yao.model.MenuExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.yao.model.MenuModelExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -93,19 +93,19 @@
     delete from menu
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.yao.model.MenuExample">
+  <delete id="deleteByExample" parameterType="com.yao.model.MenuModelExample">
     delete from menu
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.yao.model.Menu">
+  <insert id="insert" parameterType="com.yao.model.MenuModel">
     insert into menu (id, menuname, menupath, 
       createtime)
     values (#{id,jdbcType=INTEGER}, #{menuname,jdbcType=VARCHAR}, #{menupath,jdbcType=VARCHAR}, 
       #{createtime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.yao.model.Menu">
+  <insert id="insertSelective" parameterType="com.yao.model.MenuModel">
     insert into menu
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -136,7 +136,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.yao.model.MenuExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.yao.model.MenuModelExample" resultType="java.lang.Long">
     select count(*) from menu
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -172,7 +172,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.yao.model.Menu">
+  <update id="updateByPrimaryKeySelective" parameterType="com.yao.model.MenuModel">
     update menu
     <set>
       <if test="menuname != null">
@@ -187,7 +187,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.yao.model.Menu">
+  <update id="updateByPrimaryKey" parameterType="com.yao.model.MenuModel">
     update menu
     set menuname = #{menuname,jdbcType=VARCHAR},
       menupath = #{menupath,jdbcType=VARCHAR},
