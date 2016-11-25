@@ -47,7 +47,7 @@ public class MyUserDetailService implements UserDetailsService {
             auths.add(auth2);
             auths.add(auth3); 
         }       
-          
+       
         User user = new User(username, domainUser.getPassword(), true, true, true, true, auths);   
         return user;    
         }   
